@@ -1,0 +1,17 @@
+kind: pipeline
+name: ramadhannangga
+
+clone:
+  depth: 1
+
+steps:
+- name: BuildingToolchain
+  image: fadlyas/kernel_dockerfile
+  environment:
+    TOKEN:
+      from_secret: TOKEN
+    CHATID:
+      from_secret: CHATID
+    GH_TOKEN: GH_TOKEN
+  commands:
+  - bash build.sh
