@@ -69,16 +69,22 @@ tg_post_msg "<b>KernelCompiler</b>%0ABuilder Name : <code>${KBUILD_BUILD_USER}</
 compile(){
 tg_post_msg "<b>KernelCompiler:</b><code>Compilation has started"
 cd ${KERNEL_ROOTDIR}
-make -j$(nproc) O=out ARCH=arm64 ${DEVICE_DEFCONFIG}
-make -j$(nproc) ARCH=arm64 O=out \
+make -j$(nproc) O=out ${DEVICE_DEFCONFIG}
+make -j$(nproc) O=out \
+    ARCH=arm64 \
+    SUBARCH=arm64 \
+    PATH=${CLANG_ROOTDIR}/bin:${PATH} \
     CC=${CLANG_ROOTDIR}/bin/clang \
-    AR=${CLANG_ROOTDIR}/bin/llvm-ar \
-  	NM=${CLANG_ROOTDIR}/bin/llvm-nm \
-  	OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
-  	OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
-    STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
     CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
-    CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi-
+    CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi- \
+    LD=${CLANG_ROOTDIR}/bin/ld.lld \
+    LD_LIBRARY_PATH=${CLANG_ROOTDIR}/lib \
+    AR=${CLANG_ROOTDIR}/bin/llvm-ar \
+    NM=${CLANG_ROOTDIR}/bin/llvm-nm \
+    OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
+    OBJDUMP=${CLANG_ROOTDIR}/bin/llvm-objdump \
+    STRIP=${CLANG_ROOTDIR}/bin/llvm-strip \
+    CLANG_TRIPLE=aarch64-linux-gnu-
 
    if ! [ -a "$IMAGE" ]; then
 	finerr
