@@ -34,7 +34,7 @@ export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 CODENAME="ASUS_X01BDA"
 DATE=$(date +"%F-%S")
-KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
+KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
 MODEL="ASUS ZenFone Max Pro M2"
 MANUFACTURERINFO="ASUSTek Computer Inc."
 START=$(date +"%s")
@@ -72,15 +72,7 @@ tg_post_msg "<b>KernelCompiler</b>%0ADevices : <code>${CODENAME}</code>%0AModel 
 
 # Compile
 compile(){
-tg_post_msg "<b>KernelCompiler:</b><code>Compilation has started"
-cd ${KERNEL_ROOTDIR}
-make -j$(nproc) O=out ${DEVICE_DEFCONFIG}
-make -j$(nproc) O=out \
-
-
-# Compile
-compile(){
-tg_post_msg "<b>KernelCompiler:</b><code>Compilation has started"
+tg_post_msg "<b>KernelCompiler</b>%0ACompilation has started"
 cd ${KERNEL_ROOTDIR}
 make -j$(nproc) O=out ${DEVICE_DEFCONFIG}
 make -j$(nproc) O=out \
@@ -116,7 +108,7 @@ function push() {
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-        -F caption="Compile took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s). | For <b>$DEVICE_CODENAME</b> | <b>${KBUILD_COMPILER_STRING}</b>"
+        -F caption="Compile took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s). | <b>${KBUILD_COMPILER_STRING}</b>"
 }
 # Fin Error
 function finerr() {
