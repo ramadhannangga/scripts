@@ -32,14 +32,8 @@ CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(ht
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
-CODENAME="ASUS_X01BDA"
 DATE=$(date +"%F-%S")
-COMMIT=$(git log --pretty=format:'%h' -1)
-KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
-MODEL="ASUS ZenFone Max Pro M2"
-MANUFACTURERINFO="ASUSTek Computer Inc."
 START=$(date +"%s")
-VARIANT="XR"
 
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
@@ -69,11 +63,11 @@ tg_post_msg() {
 }
 
 # Post Main Information
-tg_post_msg "<b>KernelCompiler</b>%0ADevices : <code>${CODENAME}</code>%0AModel : <code>${MODEL}</code>%0AManufacturer : <code>${MANUFACTURERINFO}</code>%0AKernel Version : <code>${KVER}</code>%0ADevice Defconfig: <code>${DEVICE_DEFCONFIG}</code>%0ACommit : <code>${COMMIT}</code>%0ABuilder Name : <code>${KBUILD_BUILD_USER}</code>%0ABuilder Host : <code>${KBUILD_BUILD_HOST}</code>%0AClang Version : <code>${KBUILD_COMPILER_STRING}</code>%0AClang Rootdir : <code>${CLANG_ROOTDIR}</code>%0AKernel Rootdir : <code>${KERNEL_ROOTDIR}</code>"
+tg_post_msg "<b>KernelCompiler</b>%0ABuilder Name : <code>${KBUILD_BUILD_USER}</code>%0ABuilder Host : <code>${KBUILD_BUILD_HOST}</code>%0ADevice Defconfig: <code>${DEVICE_DEFCONFIG}</code>%0AClang Version : <code>${KBUILD_COMPILER_STRING}</code>%0AClang Rootdir : <code>${CLANG_ROOTDIR}</code>%0AKernel Rootdir : <code>${KERNEL_ROOTDIR}</code>"
 
 # Compile
 compile(){
-tg_post_msg "<b>KernelCompiler</b>%0ACompilation has started"
+tg_post_msg "<b>KernelCompiler:</b><code>Compilation has started"
 cd ${KERNEL_ROOTDIR}
 make -j$(nproc) O=out ${DEVICE_DEFCONFIG}
 make -j$(nproc) O=out \
@@ -109,7 +103,7 @@ function push() {
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-        -F caption="Compile took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s). | <b>${KBUILD_COMPILER_STRING}</b>"
+        -F caption="Compile took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s). | For <b>$DEVICE_CODENAME</b> | <b>${KBUILD_COMPILER_STRING}</b>"
 }
 # Fin Error
 function finerr() {
@@ -124,7 +118,7 @@ function finerr() {
 # Zipping
 function zipping() {
     cd AnyKernel || exit 1
-    zip -r9 [$VARIANT]$KVER-$KERNEL_NAME.zip *
+    zip -r9 $KERNEL_NAME-$DEVICE_CODENAME-${DATE}.zip *
     cd ..
 }
 check
