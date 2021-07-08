@@ -34,6 +34,8 @@ export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 DATE=$(date +"%F-%S")
 START=$(date +"%s")
+TOOLCHAIN=CLANG
+KVER=$(make kernelversion)
 
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
@@ -118,7 +120,7 @@ function finerr() {
 # Zipping
 function zipping() {
     cd AnyKernel || exit 1
-    zip -r9 [CLANG]-$KERNEL_NAME-$DEVICE_CODENAME.zip *
+    zip -r9 [$TOOLCHAIN]$KVER-$KERNEL_NAME-$DEVICE_CODENAME.zip *
     cd ..
 }
 check
