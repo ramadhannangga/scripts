@@ -34,8 +34,10 @@ export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 DATE=$(date +"%F-%S")
 START=$(date +"%s")
+MODEL=ASUS ZenFone Max Pro M2
+MANUFACTURERINFO="ASUSTek Computer Inc."
 TOOLCHAIN=CLANG
-KVER=$(make kernelversion)
+KVER=(""4.4.$(cat "$(pwd)/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
 
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
@@ -44,12 +46,13 @@ echo ================================================
 echo KernelCompiler
 echo version : rev1.5 - gaspoll
 echo ================================================
+echo BRAND = ${MANUFACTURERINFO}
+echo MODEL_PHONE = ${MODEL}
+echo DEVICE_DEFCONFIG = ${DEVICE_DEFCONFIG}
+echo KERNEL_VERSION = ${KVER}
+echo TOOLCHAIN_VERSION = ${KBUILD_COMPILER_STRING}
 echo BUILDER NAME = ${KBUILD_BUILD_USER}
 echo BUILDER HOSTNAME = ${KBUILD_BUILD_HOST}
-echo DEVICE_DEFCONFIG = ${DEVICE_DEFCONFIG}
-echo TOOLCHAIN_VERSION = ${KBUILD_COMPILER_STRING}
-echo CLANG_ROOTDIR = ${CLANG_ROOTDIR}
-echo KERNEL_ROOTDIR = ${KERNEL_ROOTDIR}
 echo ================================================
 }
 
@@ -120,7 +123,7 @@ function finerr() {
 # Zipping
 function zipping() {
     cd AnyKernel || exit 1
-    zip -r9 [$TOOLCHAIN]$KVER-$KERNEL_NAME-$DEVICE_CODENAME.zip *
+    zip -r9 [$TOOLCHAIN]$KVER-$KERNEL_NAME.zip *
     cd ..
 }
 check
