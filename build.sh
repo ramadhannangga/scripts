@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-mkdir dtc
-cd dtc
 git clone https://github.com/ramadhannangga/build --depth=1 build
 git clone https://github.com/ramadhannangga/llvm-project --depth=1 llvm-project
 git clone https://github.com/bminor/binutils-gdb -b binutils-2_37-branch --depth=1 llvm-project/llvm/tools/binutils
@@ -26,9 +24,9 @@ if ! [ -a lib64/libomp.so.5 ]; then
     echo "linking libomp.so"
     cd lib64
     ln -s libomp.so libomp.so.5
-    cd ..
+    cd
 fi
-chmod -R 777 /drone/src/dtc/out/13.0
+chmod -R 777 /drone/src/out/13.0
 git init
 git checkout -b 13.x
 git add .
