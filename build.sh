@@ -2,7 +2,8 @@
 git clone https://github.com/ramadhannangga/build --depth=1 build
 git clone https://github.com/ramadhannangga/llvm-project -b release/12.x --depth=1 llvm-project
 git clone https://github.com/bminor/binutils-gdb -b binutils-2_37-branch --depth=1 llvm-project/llvm/tools/binutils
-./llvm.sh 13
+chmod +x llvm.sh
+sudo ./llvm.sh 13
 cd build || exit 1
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
