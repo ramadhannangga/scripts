@@ -83,4 +83,5 @@ apt-get install -y lsb-release wget software-properties-common
 add-apt-repository "${REPO_NAME}"
 apt-get update
 apt-get install -y clang-$LLVM_VERSION
-
+apt-get remove -y clang-10
+apt-get autoremove -y
