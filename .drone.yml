@@ -11,4 +11,3 @@ steps:
        from_secret: GL_TOKEN
    commands:
      - bash build.sh
-     - ./llvm.sh 13
