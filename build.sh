@@ -11,7 +11,7 @@ chmod +x llvm.sh
 cd build || exit 1
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
-bash build_dtc 13.0
+bash build_dtc 13.0 opt lld thinlto
 export TOOLCHAIN_ROOT="$(dirname "$(pwd)")"
 export DTC_VERSION=13.0
 export PREFIX_PATH=$TOOLCHAIN_ROOT/out/$DTC_VERSION
