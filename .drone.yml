@@ -10,5 +10,4 @@ steps:
      GH_PUSH_REPO_URL:
    commands:
      - bash build.sh
-     - bash llvm.sh 12
-     - bash llvm.sh 13
+     - ./llvm.sh 13
