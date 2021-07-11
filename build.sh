@@ -18,18 +18,24 @@
 echo "Downloading few Dependecies . . ."
 # Kernel Sources
 git clone --depth=1 $KERNEL_SOURCE -b $KERNEL_BRANCH $DEVICE_CODENAME
-git clone --depth=1 https://github.com/ramadhannangga/iRISxe-Clang iRISxe # iRISxe set as Clang Default
+git clone --depth=1 https://gitlab.com/ramadhannangga/irisxe-clang iRISxe # iRISxe set as Clang Default
+git clone --depth=1 https://github.com/RyuujiX/aarch64-linux-gnu gcc64
+git clone --depth=1 https://github.com/RyuujiX/arm-linux-gnueabi gcc
 
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 DEVICE_DEFCONFIG=$DEVICE_DEFCONFIG # IMPORTANT ! Declare your kernel source defconfig file here.
 CLANG_ROOTDIR=$(pwd)/iRISxe # IMPORTANT! Put your clang directory here.
+GCC64_ROOTDIR=$(pwd)/gcc64 # IMPORTANT! Put your gcc64 directory here.
+GCC_ROOTDIR=$(pwd)/gcc # IMPORTANT! Put your gcc directory here.
 export KBUILD_BUILD_USER=$BUILD_USER # Change with your own name or else.
 export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 
 # Main Declaration
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
+GCC64_VER="$("$GCC64_ROOTDIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)"
+GCC_VER="$("$GCC_ROOTDIR"/bin/arm-linux-gnueabi-gcc --version | head -n 1)"
 export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 CODENAME="ASUS_X01BDA"
@@ -81,8 +87,8 @@ make -j$(nproc) O=out \
     SUBARCH=arm64 \
     PATH=${CLANG_ROOTDIR}/bin:${PATH} \
     CC=${CLANG_ROOTDIR}/bin/clang \
-    CROSS_COMPILE=${CLANG_ROOTDIR}/bin/aarch64-linux-gnu- \
-    CROSS_COMPILE_ARM32=${CLANG_ROOTDIR}/bin/arm-linux-gnueabi- \
+    CROSS_COMPILE=${GCC64_ROOTDIR}/bin/aarch64-linux-gnu- \
+    CROSS_COMPILE_ARM32=${GCC_ROOTDIR}/bin/arm-linux-gnueabi- \
     AR=${CLANG_ROOTDIR}/bin/llvm-ar \
     NM=${CLANG_ROOTDIR}/bin/llvm-nm \
     OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
