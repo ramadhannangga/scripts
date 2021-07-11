@@ -1,9 +1,32 @@
 #!/usr/bin/env bash
-# git clone llvm-project from llvm and git push to my github.
-git config --global user.email ramadhananggayudhanto@gmail.com
+apt-get update -qq && \
+apt-get upgrade -y && \
+apt-get install --no-install-recommends -y \
+apt install -y lsb-release wget software-properties-common \
+./llvm.sh 12
+./llvm.sh 13
+git clone https://github.com/ramadhannangga/llvm-project -b release/12.x --depth=1 llvm-project
+git clone https://github.com/bminor/binutils-gdb -b binutils-2_37-branch --depth=1 llvm-project/llvm/tools/binutils
+cd build || exit 1
+bash build_dtc 12.0
+export TOOLCHAIN_ROOT="$(dirname "$(pwd)")"
+export DTC_VERSION=12.0
+export PREFIX_PATH=$TOOLCHAIN_ROOT/out/$DTC_VERSION
 git config --global user.name ramadhannangga
-git clone https://ramadhannangga:$GH_TOKEN@github.com/ramadhannangga/llvm-project
-cd llvm-project
-git fetch https://github.com/llvm/llvm-project
-git merge FETCH_HEAD
-git push --force origin main
+git config --global user.email ramadhananggayudhanto@gmail.com
+git config --global http.version HTTP/1.1
+git config http.postBuffer 524288000
+cd $PREFIX_PATH
+if ! [ -a lib64/libomp.so.5 ]; then
+    echo "linking libomp.so"
+    cd lib64
+    ln -s libomp.so libomp.so.5
+    cd ..
+fi
+chmod -R 777 $PREFIX_PATH
+git init
+git checkout -b 12.0
+git add .
+git commit -m "$DTC_VERSION-NusantaraDevsTC-$(date +'%d%m%y')" --signoff
+git remote add origin https://ramadhannangga:$GH_TOKEN@github.com/ramadhannangga/iRISxe-Clang
+git push --force origin 12.0
