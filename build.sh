@@ -32,5 +32,5 @@ git init
 git checkout -b 13.x
 git add .
 git commit -m "$DTC_VERSION-iRISxeTC-$(date +'%d%m%y')" --signoff
-git remote add origin https://ramadhannangga:$GH_TOKEN@github.com/ramadhannangga/iRISxe-Clang.gi
+git remote add origin https://ramadhannangga:$GH_TOKEN@github.com/ramadhannangga/iRISxe-Clang.git
 git push --force origin 13.x
