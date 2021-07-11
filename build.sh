@@ -2,6 +2,10 @@
 git clone https://github.com/ramadhannangga/build --depth=1 build
 git clone https://github.com/ramadhannangga/llvm-project -b release/12.x --depth=1 llvm-project
 git clone https://github.com/bminor/binutils-gdb -b binutils-2_37-branch --depth=1 llvm-project/llvm/tools/binutils
+apt-get update -qq &&
+apt-get upgrade -y &&
+apt-get install --no-install-recommends -y
+apt-get install -y lsb-release wget software-properties-common
 chmod +x llvm.sh
 ./llvm.sh 13
 cd build || exit 1
