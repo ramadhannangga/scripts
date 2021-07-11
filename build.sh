@@ -19,14 +19,15 @@ git config --global user.name ramadhannangga
 git config --global user.email ramadhananggayudhanto@gmail.com
 git config --global http.version HTTP/1.1
 git config http.postBuffer 524288000
-cd out/13.0
+cd $PREFIX_PATH
 if ! [ -a lib64/libomp.so.5 ]; then
     echo "linking libomp.so"
     cd lib64
     ln -s libomp.so libomp.so.5
-    cd
+    cd ..
 fi
 chmod -R 777 /drone/src/out/13.0
+cd /drone/src/out/13.0
 git init
 git checkout -b 13.x
 git add .
