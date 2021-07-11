@@ -76,6 +76,10 @@ esac
 
 # install everything
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+apt-get update -qq &&
+apt-get upgrade -y &&
+apt-get install --no-install-recommends -y
+apt-get install -y lsb-release wget software-properties-common
 add-apt-repository "${REPO_NAME}"
 apt-get update
 apt-get install -y clang-$LLVM_VERSION
