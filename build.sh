@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 git clone https://github.com/ramadhannangga/build --depth=1 build
 git clone https://github.com/ramadhannangga/llvm-project --depth=1 llvm-project
-git clone https://github.com/bminor/binutils-gdb -b binutils-2_37-branch --depth=1 llvm-project/llvm/tools/binutils
+git clone https://github.com/bminor/binutils-gdb -b binutils-2_36-branch --depth=1 llvm-project/llvm/tools/binutils
 apt-get update -qq &&
 apt-get upgrade -y &&
 apt-get install --no-install-recommends -y
@@ -11,7 +11,7 @@ chmod +x llvm.sh
 cd build || exit 1
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
-bash build_dtc 13.0 opt lld thinlto
+bash build_dtc 13.0
 export TOOLCHAIN_ROOT="$(dirname "$(pwd)")"
 export DTC_VERSION=13.0
 export PREFIX_PATH=$TOOLCHAIN_ROOT/out/$DTC_VERSION
