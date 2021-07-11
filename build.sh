@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+mkdir dtc
+cd dtc
 git clone https://github.com/ramadhannangga/build --depth=1 build
-git clone https://github.com/ramadhannangga/llvm-project -b release/12.x --depth=1 llvm-project
+git clone https://github.com/ramadhannangga/llvm-project --depth=1 llvm-project
 git clone https://github.com/bminor/binutils-gdb -b binutils-2_37-branch --depth=1 llvm-project/llvm/tools/binutils
 apt-get update -qq &&
 apt-get upgrade -y &&
@@ -11,25 +13,25 @@ chmod +x llvm.sh
 cd build || exit 1
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
-bash build_dtc 12.0
+bash build_dtc 13.0
 export TOOLCHAIN_ROOT="$(dirname "$(pwd)")"
-export DTC_VERSION=12.0
+export DTC_VERSION=13.0
 export PREFIX_PATH=$TOOLCHAIN_ROOT/out/$DTC_VERSION
 git config --global user.name ramadhannangga
 git config --global user.email ramadhananggayudhanto@gmail.com
 git config --global http.version HTTP/1.1
 git config http.postBuffer 524288000
-cd $PREFIX_PATH
+cd out/13.0
 if ! [ -a lib64/libomp.so.5 ]; then
     echo "linking libomp.so"
     cd lib64
     ln -s libomp.so libomp.so.5
     cd ..
 fi
-chmod -R 777 $PREFIX_PATH
+chmod -R 777 /drone/src/dtc/out/13.0
 git init
-git checkout -b 12.0
+git checkout -b 13.x
 git add .
 git commit -m "$DTC_VERSION-iRISxeTC-$(date +'%d%m%y')" --signoff
 git remote add origin https://ramadhannangga:$GH_TOKEN@github.com/ramadhannangga/iRISxe-Clang.gi
-git push --force origin 12.0
+git push --force origin 13.x
