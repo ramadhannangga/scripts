@@ -11,7 +11,7 @@ chmod +x llvm.sh
 cd build || exit 1
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
-bash build_dtc 13.0
+bash build_dtc 13.0 opt thinlto
 export TOOLCHAIN_ROOT="$(dirname "$(pwd)")"
 export DTC_VERSION=13.0
 export PREFIX_PATH=$TOOLCHAIN_ROOT/out/$DTC_VERSION
@@ -29,7 +29,7 @@ fi
 chmod -R 777 /drone/src/out/13.0
 cd /drone/src/out/13.0
 git init
-git checkout -b 13.x
+git checkout -b iTC/13.0
 git add .
 git commit -m "$DTC_VERSION-iRISxeTC-$(date +'%d%m%y')" --signoff
 git remote add origin https://ramadhannangga:$GL_TOKEN@gitlab.com/ramadhannangga/irisxe-clang.git
