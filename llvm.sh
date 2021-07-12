@@ -82,6 +82,7 @@ apt-get install --no-install-recommends -y
 apt-get install -y lsb-release wget software-properties-common
 add-apt-repository "${REPO_NAME}"
 apt-get update
-apt-get install -y clang-$LLVM_VERSION
-apt-get remove -y clang-10
+apt-get install -y clang-$LLVM_VERSION lldb-$LLVM_VERSION lld-$LLVM_VERSION clangd-$LLVM_VERSION
+apt-get install libllvm-13-ocaml-dev libllvm13 llvm-13 llvm-13-dev llvm-13-doc llvm-13-examples llvm-13-runtime clang-13 clang-tools-13 clang-13-doc libclang-common-13-dev libclang-13-dev libclang1-13 clang-format-13 python-clang-13 clangd-13 libfuzzer-13-dev lldb-13 lld-13 libc++-13-dev libc++abi-13-dev libomp-13-dev libclc-13-dev
+apt-get remove -y clang-10 lldb-10 lld-10 clangd-10
 apt-get autoremove -y
