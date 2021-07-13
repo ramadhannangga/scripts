@@ -19,8 +19,8 @@ echo "Downloading few Dependecies . . ."
 # Kernel Sources
 git clone --depth=1 $KERNEL_SOURCE -b $KERNEL_BRANCH $DEVICE_CODENAME
 git clone --depth=1 https://gitlab.com/ramadhannangga/irisxe-clang iRISxe # iRISxe set as Clang Default
-git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu gcc64
-git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi gcc
+git clone --depth=1 https://github.com/mvaisakh/gcc-arm64 gcc64
+git clone --depth=1 https://github.com/mvaisakh/gcc-arm gcc
 
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
@@ -87,8 +87,8 @@ make -j$(nproc) O=out \
     SUBARCH=arm64 \
     PATH=${CLANG_ROOTDIR}/bin:${PATH} \
     CC=${CLANG_ROOTDIR}/bin/clang \
-    CROSS_COMPILE=${GCC64_ROOTDIR}/bin/aarch64-linux-gnu- \
-    CROSS_COMPILE_ARM32=${GCC_ROOTDIR}/bin/arm-linux-gnueabi- \
+    CROSS_COMPILE=${GCC64_ROOTDIR}/bin/aarch64-elf- \
+    CROSS_COMPILE_ARM32=${GCC_ROOTDIR}/bin/arm-eabi- \
     AR=${CLANG_ROOTDIR}/bin/llvm-ar \
     NM=${CLANG_ROOTDIR}/bin/llvm-nm \
     OBJCOPY=${CLANG_ROOTDIR}/bin/llvm-objcopy \
