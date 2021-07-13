@@ -19,13 +19,15 @@ echo "Downloading few Dependecies . . ."
 # Kernel Sources
 git clone --depth=1 $KERNEL_SOURCE -b $KERNEL_BRANCH $DEVICE_CODENAME
 git clone --depth=1 https://github.com/ramadhannangga/iRISxe-Clang iRISxe # iRISxe set as Clang Default
+git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu -b stable-gcc gcc64 # set as GCC ARM64 Default
+git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi -b stable-gcc gcc # set as GCC ARM Default
 
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 DEVICE_DEFCONFIG=$DEVICE_DEFCONFIG # IMPORTANT ! Declare your kernel source defconfig file here.
 CLANG_ROOTDIR=$(pwd)/iRISxe # IMPORTANT! Put your clang directory here.
-GCC64_ROOTDIR=$(pwd)/iRISxe # IMPORTANT! Put your gcc64 directory here.
-GCC_ROOTDIR=$(pwd)/iRISxe # IMPORTANT! Put your gcc directory here.
+GCC64_ROOTDIR=$(pwd)/gcc64 # IMPORTANT! Put your gcc64 directory here.
+GCC_ROOTDIR=$(pwd)/gcc # IMPORTANT! Put your gcc directory here.
 export KBUILD_BUILD_USER=$BUILD_USER # Change with your own name or else.
 export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 
@@ -41,6 +43,7 @@ DATE=$(date +"%F-%S")
 KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
 MODEL="ASUS ZenFone Max Pro M2"
 MANUFACTURERINFO="ASUSTek Computer Inc."
+START=$(date +"%s")
 VARIANT="XR"
 
 # Checking environtment
@@ -73,11 +76,11 @@ tg_post_msg() {
 }
 
 # Post Main Information
-tg_post_msg "<b>KernelCompiler</b>%0ADevices : <code>${CODENAME}</code>%0AModel : <code>${MODEL}</code>%0AManufacturer : <code>${MANUFACTURERINFO}</code>%0AKernel Version : <code>${KVER}</code>%0ADevice Defconfig: <code>${DEVICE_DEFCONFIG}</code>%0ABuilder Name : <code>${KBUILD_BUILD_USER}</code>%0ABuilder Host : <code>${KBUILD_BUILD_HOST}</code>%0AClang Version : <code>${KBUILD_COMPILER_STRING}</code>%0AClang Rootdir : <code>${CLANG_ROOTDIR}</code>%0AKernel Rootdir : <code>${KERNEL_ROOTDIR}</code>"
+tg_post_msg "<b>iRISxe Kernel Compiler</b>%0ADevices : <code>${CODENAME}</code>%0AModel : <code>${MODEL}</code>%0AManufacturer : <code>${MANUFACTURERINFO}</code>%0AKernel Version : <code>${KVER}</code>%0ADevice Defconfig: <code>${DEVICE_DEFCONFIG}</code>%0ABuilder Name : <code>${KBUILD_BUILD_USER}</code>%0ABuilder Host : <code>${KBUILD_BUILD_HOST}</code>%0AClang Version : <code>${KBUILD_COMPILER_STRING}</code>%0AClang Rootdir : <code>${CLANG_ROOTDIR}</code>%0AKernel Rootdir : <code>${KERNEL_ROOTDIR}</code>"
 
 # Compile
 compile(){
-tg_post_msg "<b>Compilation has started</b>"
+tg_post_msg "<b>iRISxe: Compilation has started...</b>"
 cd ${KERNEL_ROOTDIR}
 make -j$(nproc) O=out ${DEVICE_DEFCONFIG}
 make -j$(nproc) O=out \
@@ -111,7 +114,7 @@ function push() {
         -F chat_id="$TG_CHAT_ID" \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
-        -F caption="Compile took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s). | <b>${KBUILD_COMPILER_STRING}</b>"
+        -F caption="iRISxe: Compile took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s)."
 }
 # Fin Error
 function finerr() {
