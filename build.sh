@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (C) 2021 a xyzprjkt property
+# Copyright (C) 2021 a iRISxe-prjkt property
 #
 
 # Needed Secret Variable
@@ -18,16 +18,14 @@
 echo "Downloading few Dependecies . . ."
 # Kernel Sources
 git clone --depth=1 $KERNEL_SOURCE -b $KERNEL_BRANCH $DEVICE_CODENAME
-git clone --depth=1 https://gitlab.com/ramadhannangga/irisxe-clang iRISxe # iRISxe set as Clang Default
-git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu -b stable-gcc gcc64
-git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi -b stable-gcc gcc
+git clone --depth=1 https://github.com/ramadhannangga/iRISxe-Clang iRISxe # iRISxe set as Clang Default
 
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
 DEVICE_DEFCONFIG=$DEVICE_DEFCONFIG # IMPORTANT ! Declare your kernel source defconfig file here.
 CLANG_ROOTDIR=$(pwd)/iRISxe # IMPORTANT! Put your clang directory here.
-GCC64_ROOTDIR=$(pwd)/gcc64 # IMPORTANT! Put your gcc64 directory here.
-GCC_ROOTDIR=$(pwd)/gcc # IMPORTANT! Put your gcc directory here.
+GCC64_ROOTDIR=$(pwd)/iRISxe # IMPORTANT! Put your gcc64 directory here.
+GCC_ROOTDIR=$(pwd)/iRISxe # IMPORTANT! Put your gcc directory here.
 export KBUILD_BUILD_USER=$BUILD_USER # Change with your own name or else.
 export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 
@@ -40,11 +38,9 @@ export KBUILD_COMPILER_STRING="$CLANG_VER with $GCC64_VER and $GCC_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 CODENAME="ASUS_X01BDA"
 DATE=$(date +"%F-%S")
-COMMIT=$(git log --pretty=format:'%h' -1)
 KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
 MODEL="ASUS ZenFone Max Pro M2"
 MANUFACTURERINFO="ASUSTek Computer Inc."
-START=$(date +"%s")
 VARIANT="XR"
 
 # Checking environtment
@@ -77,11 +73,11 @@ tg_post_msg() {
 }
 
 # Post Main Information
-tg_post_msg "<b>KernelCompiler</b>%0ADevices : <code>${CODENAME}</code>%0AModel : <code>${MODEL}</code>%0AManufacturer : <code>${MANUFACTURERINFO}</code>%0AKernel Version : <code>${KVER}</code>%0ADevice Defconfig: <code>${DEVICE_DEFCONFIG}</code>%0ACommit : <code>${COMMIT}</code>%0ABuilder Name : <code>${KBUILD_BUILD_USER}</code>%0ABuilder Host : <code>${KBUILD_BUILD_HOST}</code>%0AClang Version : <code>${KBUILD_COMPILER_STRING}</code>%0AClang Rootdir : <code>${CLANG_ROOTDIR}</code>%0AKernel Rootdir : <code>${KERNEL_ROOTDIR}</code>"
+tg_post_msg "<b>KernelCompiler</b>%0ADevices : <code>${CODENAME}</code>%0AModel : <code>${MODEL}</code>%0AManufacturer : <code>${MANUFACTURERINFO}</code>%0AKernel Version : <code>${KVER}</code>%0ADevice Defconfig: <code>${DEVICE_DEFCONFIG}</code>%0ABuilder Name : <code>${KBUILD_BUILD_USER}</code>%0ABuilder Host : <code>${KBUILD_BUILD_HOST}</code>%0AClang Version : <code>${KBUILD_COMPILER_STRING}</code>%0AClang Rootdir : <code>${CLANG_ROOTDIR}</code>%0AKernel Rootdir : <code>${KERNEL_ROOTDIR}</code>"
 
 # Compile
 compile(){
-tg_post_msg "<b>Compilation has started</b>%0ASTART <code>${START}</code>"
+tg_post_msg "<b>Compilation has started</b>"
 cd ${KERNEL_ROOTDIR}
 make -j$(nproc) O=out ${DEVICE_DEFCONFIG}
 make -j$(nproc) O=out \
