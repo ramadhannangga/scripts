@@ -19,8 +19,8 @@ echo "Downloading few Dependecies . . ."
 # Kernel Sources
 git clone --depth=1 $KERNEL_SOURCE -b $KERNEL_BRANCH $DEVICE_CODENAME
 git clone --depth=1 https://gitlab.com/ramadhannangga/irisxe-clang iRISxe # iRISxe set as Clang Default
-git clone --depth=1 https://github.com/RyuujiX/aarch64-linux-gnu gcc64
-git clone --depth=1 https://github.com/RyuujiX/arm-linux-gnueabi gcc
+git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu gcc64
+git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi gcc
 
 # Main Declaration
 KERNEL_ROOTDIR=$(pwd)/$DEVICE_CODENAME # IMPORTANT ! Fill with your kernel source root directory.
@@ -36,7 +36,7 @@ CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(ht
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
 GCC64_VER="$("$GCC64_ROOTDIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)"
 GCC_VER="$("$GCC_ROOTDIR"/bin/arm-linux-gnueabi-gcc --version | head -n 1)"
-export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER with $GCC64_VER and $GCC_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 CODENAME="ASUS_X01BDA"
 DATE=$(date +"%F-%S")
@@ -44,7 +44,7 @@ COMMIT=$(git log --pretty=format:'%h' -1)
 KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
 MODEL="ASUS ZenFone Max Pro M2"
 MANUFACTURERINFO="ASUSTek Computer Inc."
-START=$(date +"%s")
+START=$($DATE +%s)
 VARIANT="XR"
 
 # Checking environtment
@@ -59,6 +59,8 @@ echo BUILDER HOSTNAME = ${KBUILD_BUILD_HOST}
 echo DEVICE_DEFCONFIG = ${DEVICE_DEFCONFIG}
 echo TOOLCHAIN_VERSION = ${KBUILD_COMPILER_STRING}
 echo CLANG_ROOTDIR = ${CLANG_ROOTDIR}
+echo GCC64_ROOTDIR = ${GCC64_ROOTDIR}
+echo GCC_ROOTDIR = ${GCC_ROOTDIR}
 echo KERNEL_ROOTDIR = ${KERNEL_ROOTDIR}
 echo ================================================
 }
