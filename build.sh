@@ -34,7 +34,9 @@ export KBUILD_BUILD_HOST=$BUILD_HOST # Change with your own hostname.
 # Main Declaration
 CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
-export KBUILD_COMPILER_STRING="$CLANG_VER"
+GCC64_VER="$("$GCC64_ROOTDIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)"
+GCC_VER="$("$GCC_ROOTDIR"/bin/arm-linux-gnueabi-gcc --version | head -n 1)"
+export KBUILD_COMPILER_STRING="$CLANG_VER with $GCC64_VER and $GCC_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 CODENAME="ASUS_X01BDA"
 DATE=$(date +"%F-%S")
@@ -42,7 +44,7 @@ COMMIT=$(git log --pretty=format:'%h' -1)
 KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed 's/SUBLEVEL = *//g')$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "EXTRAVERSION =" | sed 's/EXTRAVERSION = *//g')"")
 MODEL="ASUS ZenFone Max Pro M2"
 MANUFACTURERINFO="ASUSTek Computer Inc."
-START=$(DATE +%s)
+START=$(date +"%s")
 VARIANT="XR"
 
 # Checking environtment
