@@ -31,6 +31,6 @@ cd /drone/src/out/13.0
 git init
 git checkout -b iTC/13.0
 git add .
-git commit -m "$DTC_VERSION-iRISxeTC-$(date +'%d%m%y')" --signoff
+git commit -m "$DTC_VERSION-iRIStc-$(date +'%d%m%y')" --signoff
 git remote add origin https://ramadhannangga:$GL_TOKEN@gitlab.com/ramadhannangga/irisxe-clang.git
 git push --force origin iTC/13.0
