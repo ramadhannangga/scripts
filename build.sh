@@ -18,7 +18,7 @@
 echo "Downloading few Dependecies . . ."
 # Kernel Sources
 git clone --depth=1 $KERNEL_SOURCE -b $KERNEL_BRANCH $DEVICE_CODENAME
-git clone --depth=1 https://github.com/ramadhannangga/iRISxe-Clang iRISxe # iRISxe set as Clang Default
+git clone --depth=1 https://gitlab.com/ramadhannangga/irisxe-clang iRISxe # iRISxe set as Clang Default
 git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu -b stable-gcc gcc64 # set as GCC ARM64 Default
 git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi -b stable-gcc gcc # set as GCC ARM Default
 
