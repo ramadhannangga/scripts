@@ -44,7 +44,7 @@ KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed '
 MODEL="ASUS ZenFone Max Pro M2"
 MANUFACTURERINFO="ASUSTek Computer Inc."
 START=$(date +"%s")
-VARIANT="XR"
+VARIANT="R"
 
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
