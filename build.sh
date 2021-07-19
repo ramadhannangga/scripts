@@ -36,7 +36,7 @@ CLANG_VER="$("$CLANG_ROOTDIR"/bin/clang --version | head -n 1 | perl -pe 's/\(ht
 LLD_VER="$("$CLANG_ROOTDIR"/bin/ld.lld --version | head -n 1)"
 GCC64_VER="$("$GCC64_ROOTDIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)"
 GCC_VER="$("$GCC_ROOTDIR"/bin/arm-linux-gnueabi-gcc --version | head -n 1)"
-export KBUILD_COMPILER_STRING="$CLANG_VER with $GCC64_VER and $GCC_VER"
+export KBUILD_COMPILER_STRING="$CLANG_VER (based on LLVM 13.0.0svn) with $GCC64_VER and $GCC_VER"
 IMAGE=$(pwd)/$DEVICE_CODENAME/out/arch/arm64/boot/Image.gz-dtb
 CODENAME="ASUS_X01BDA"
 DATE=$(date +"%F-%S")
@@ -44,7 +44,7 @@ KVER=(""4.4.$(cat "$(pwd)/$DEVICE_CODENAME/Makefile" | grep "SUBLEVEL =" | sed '
 MODEL="ASUS ZenFone Max Pro M2"
 MANUFACTURERINFO="ASUSTek Computer Inc."
 START=$(date +"%s")
-VARIANT="R"
+VARIANT="R11"
 
 # Checking environtment
 # Warning !! Dont Change anything there without known reason.
