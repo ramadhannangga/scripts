@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 git clone https://github.com/ramadhannangga/build --depth=1 build
 git clone https://github.com/ramadhannangga/llvm-project --depth=1 llvm-project
-git clone https://github.com/bminor/binutils-gdb -b binutils-2_36-branch --depth=1 llvm-project/llvm/tools/binutils
+git clone https://github.com/bminor/binutils-gdb --depth=1 llvm-project/llvm/tools/binutils
 apt-get update -qq &&
 apt-get upgrade -y &&
 apt-get install --no-install-recommends -y
@@ -29,8 +29,8 @@ fi
 chmod -R 777 /drone/src/out/13.0
 cd /drone/src/out/13.0
 git init
-git checkout -b iTC/13.0
+git checkout -b iRISxeTC/13.x
 git add .
 git commit -m "$DTC_VERSION-iRIStc-$(date +'%d%m%y')" --signoff
 git remote add origin https://ramadhannangga:$GL_TOKEN@gitlab.com/ramadhannangga/irisxe-clang.git
-git push --force origin iTC/13.0
+git push --force origin iRISxeTC/13.x
