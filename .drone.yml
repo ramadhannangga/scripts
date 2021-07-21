@@ -9,4 +9,5 @@ steps:
        from_secret: GH_TOKEN
      GH_PUSH_REPO_URL:
    commands:
+     - bash kernelclone.sh
      - bash build.sh
