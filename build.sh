@@ -2,6 +2,7 @@
 git clone https://github.com/ramadhannangga/build --depth=1 build
 git clone https://github.com/ramadhannangga/llvm-project --depth=1 llvm-project
 git clone https://github.com/bminor/binutils-gdb --depth=1 llvm-project/llvm/tools/binutils
+git clone https://ramadhannangga:$GL_TOKEN@gitlab.com/ramadhannangga/irisxe-clang.git -b iRISxeTC/13.x out/13.0
 apt-get update -qq &&
 apt-get upgrade -y &&
 apt-get install --no-install-recommends -y
@@ -11,7 +12,7 @@ chmod +x llvm.sh
 cd build || exit 1
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
-bash build_dtc 13.0
+bash build_dtc 13.0 opt
 export TOOLCHAIN_ROOT="$(dirname "$(pwd)")"
 export DTC_VERSION=13.0
 export PREFIX_PATH=$TOOLCHAIN_ROOT/out/$DTC_VERSION
@@ -28,9 +29,6 @@ if ! [ -a lib64/libomp.so.5 ]; then
 fi
 chmod -R 777 /drone/src/out/13.0
 cd /drone/src/out/13.0
-git init
-git checkout -b iRISxeTC/13.x
 git add .
-git commit -m "$DTC_VERSION-iRIStc-$(date +'%d%m%y')" --signoff
-git remote add origin https://ramadhannangga:$GL_TOKEN@gitlab.com/ramadhannangga/irisxe-clang.git
+git commit -m "$DTC_VERSION-iRISxeTC-$(date +'%d%m%y')" --signoff
 git push --force origin iRISxeTC/13.x
