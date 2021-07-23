@@ -1,14 +1,11 @@
-kind: pipeline
-
-steps:
-- name: test
-  image: golang
-  commands:
-  - go test
-  - go build
-
-- name: publish
-  image: iris/docker
-  settings:
-    repo: octocat/hello-world
-    tags: [ latest, 1.0, 1 ]
+ - name: DroneSSH
+   image: appleboy/drone-ssh
+   settings:
+     host: foo.com
+     username: root
+     password:
+      from_secret: ssh_password
+     port: 22
+     script:
+       - echo hello
+       - echo world
