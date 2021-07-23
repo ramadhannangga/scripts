@@ -1,3 +1,4 @@
+ kind: pipeline
  name: ssh commands
  image: appleboy/drone-ssh
  settings:
