@@ -1,13 +1,14 @@
 kind: pipeline
-name : Kernel Compiler
-version: rev1.5_template
+
 steps:
- - name: Kernel Compilation
-   image: xyzuan/xdocker:latest
-   environment:
-     GH_TOKEN:
-       from_secret: GH_TOKEN
-     GH_PUSH_REPO_URL:
-   commands:
-     - bash kernelclone.sh
-     - bash build.sh
+- name: test
+  image: golang
+  commands:
+  - go test
+  - go build
+
+- name: publish
+  image: iris/docker
+  settings:
+    repo: octocat/hello-world
+    tags: [ latest, 1.0, 1 ]
